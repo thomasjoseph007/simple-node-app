@@ -1,0 +1,15 @@
+{
+  "name": "docker-web",
+  "version": "1.0.0",
+  "description": "first node.js app on Docker",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "thomaz joseph",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
