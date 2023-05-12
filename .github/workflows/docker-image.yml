@@ -19,7 +19,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag thomazjoseph/node-test123
     - name: Docker Push
-      run: docker push ${{secrets.DOCKER_USER}}/node-test123:latest
+      run: docker push ${{secrets.DOCKER_USER}}/node-test123
   deploy-to-ec2:
     needs: build-push-docker
     runs-on: self-hosted
