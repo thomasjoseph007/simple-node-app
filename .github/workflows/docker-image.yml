@@ -25,7 +25,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Pull docker image
-        run: docker pull thomazjoseph/node-test123
+        run: sudo docker pull thomazjoseph/node-test123
       - name: Delete Old container image
         run: sudo docker rm -f node-test123-container || true
       - name: run docker container
