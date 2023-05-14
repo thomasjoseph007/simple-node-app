@@ -19,7 +19,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag thomazjoseph/node-test123
     - name: Docker Push
-      run: docker push ${{secrets.DOCKER_USER}}/node-test123
+      run: docker push thomazjoseph/node-test123
   deploy-to-ec2:
     needs: build-push-docker
     runs-on: self-hosted
@@ -29,4 +29,4 @@ jobs:
       - name: Delete Old container image
         run: sudo docker rm -f node-test123-container || true
       - name: run docker container
-        run: sudo docker run - d --name node-test123-container -p 8080:8080  thomazjoseph/node-test123:latest   
+        run: sudo docker run -d --name node-test123-container -p 8080:8080 thomazjoseph/node-test123:latest
