@@ -26,7 +26,9 @@ jobs:
     steps:
       - name: Pull docker image
         run: docker pull thomazjoseph/node-test123
-      - name: Delete Old container image
+      - name: Delete old container image
         run: docker rm -f node-test123-container || true
+      - name: Delete old docker image
+        run: docker rmi thomazjoseph/node-test123 || true
       - name: run docker container
         run: docker run -td --name node-test123-container -p 8080:8080 thomazjoseph/node-test123:latest 
