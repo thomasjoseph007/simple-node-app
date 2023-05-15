@@ -29,4 +29,4 @@ jobs:
       - name: Delete Old container image
         run: sudo docker rm -f node-test123-container || true
       - name: run docker container
-        run: sudo docker run -d --name node-test123-container -p 8080:8080 thomazjoseph/node-test123:latest 
+        run: sudo docker run -td --name node-test123-container -p 8080:8080 thomazjoseph/node-test123:latest 
