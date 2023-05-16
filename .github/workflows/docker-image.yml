@@ -31,4 +31,4 @@ jobs:
       - name: Delete old docker image
         run: docker rmi thomazjoseph/node-test123 || true
       - name: run docker container
-        run: docker run -td --name node-test123-container -p 8080:8080 thomazjoseph/node-test123:latest 
+        run: docker run -d --name node-test123-container -p 8080:8080 thomazjoseph/node-test123:latest 
