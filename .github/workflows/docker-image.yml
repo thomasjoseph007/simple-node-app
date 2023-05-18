@@ -8,7 +8,8 @@ jobs:
   build-push-docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3    
+      - uses: actions/checkout@v3
+      - name: Checkout code
       - name: Docker login
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
