@@ -1,24 +1,25 @@
-name: Docker Image CI
+name: Docker Image CI-CD
 on:
   push:
     branches: [ "dev01" ]
 env:
-  IMAGE_NAME: thomazjoseph/node_test123:latest  
+  IMAGE_NAME: thomazjoseph/node_test123:latest
 jobs:
   build-push-docker:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: doker login
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD  
-    - name: Build the Docker image
-      run: docker build -t ${{env.IMAGE_NAME}} .
-    - name: Docker Push
-      run: docker push ${{env.IMAGE_NAME}}
+      - name: Checkout code
+        uses: actions/checkout@v3    
+      - name: Docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          run: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+      - name: Build the Docker image
+        run: docker build -t ${{env.IMAGE_NAME}} .
+      - name: Docker Push
+        run: docker push ${{env.IMAGE_NAME}}
   deploy-to-ec2:
     needs: build-push-docker
     runs-on: self-hosted
@@ -29,5 +30,7 @@ jobs:
         run: docker rm -f node-test123_container || true
       - name: Delete old docker image
         run: docker rmi ${{env.IMAGE_NAME}} || true
-      - name: run docker container
-        run: docker run -d --name node-test123_container -p 8080:8080 ${{env.IMAGE_NAME}}
+      - name: Run docker container
+        run: |
+          echo "Deploying Docker container at $(date)"
+          docker run -d --name node-test123_container -p 8080:8080 ${{env.IMAGE_NAME}}
