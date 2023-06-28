@@ -3,6 +3,8 @@ name: Docker Image CI
 on:
   push:
     branches: [ "test123" ]
+env:
+  IMAGE_NAME: thomasjiitak/node-test123:latest
 jobs:
   build-push-docker:
     runs-on: ubuntu-latest
@@ -15,9 +17,9 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD  
     - name: Build the Docker image
-      run: docker build -t thomasjiitak/node-test123 .
+      run: docker build -t ${{env.IMAGE_NAME}} .
     - name: Docker Push
-      run: docker push thomasjiitak/node-test123
+      run: docker push ${{env.IMAGE_NAME}}
   deploy-to-ec2:
     needs: build-push-docker
     runs-on: ubuntu-latest
