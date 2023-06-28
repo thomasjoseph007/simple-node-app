@@ -2,12 +2,10 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "dev01" ]
+    branches: [ "test123" ]
 jobs:
   build-push-docker:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: doker login
@@ -17,18 +15,18 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD  
     - name: Build the Docker image
-      run: docker build -t thomazjoseph/node-test123 .
+      run: docker build -t thomasjiitak/node-test123 .
     - name: Docker Push
-      run: docker push thomazjoseph/node-test123
+      run: docker push thomasjiitak/node-test123
   deploy-to-ec2:
     needs: build-push-docker
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
-      - name: Pull docker image
-        run: docker pull thomazjoseph/node-test123
-      - name: Delete old container image
-        run: docker rm -f node-test123-container || true
-      - name: Delete old docker image
-        run: docker rmi thomazjoseph/node-test123 || true
-      - name: run docker container
-        run: docker run -d --name node-test123-container -p 8080:8080 thomazjoseph/node-test123:latest 
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Connect to EC2 and run script
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@54.206.59.90 \ ./pull.sh
