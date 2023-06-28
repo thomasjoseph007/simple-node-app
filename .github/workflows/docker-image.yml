@@ -9,17 +9,17 @@ jobs:
   build-push-docker:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: doker login
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD  
-    - name: Build the Docker image
-      run: docker build -t ${{env.IMAGE_NAME}} .
-    - name: Docker Push
-      run: docker push ${{env.IMAGE_NAME}}
+      - uses: actions/checkout@v3
+      - name: Docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+      - name: Build the Docker image
+        run: docker build -t ${{env.IMAGE_NAME}} .
+      - name: Docker Push
+        run: docker push ${{env.IMAGE_NAME}}
   deploy-to-ec2:
     needs: build-push-docker
     runs-on: ubuntu-latest
