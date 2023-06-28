@@ -1,6 +1,6 @@
 # simple-node-app
 
-the docker file consists of...
+the docker file consists of... 
 
       FROM node:10-alpine
 
