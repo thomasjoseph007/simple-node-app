@@ -6,5 +6,5 @@ app.get('/',(req,res) => {
     res.send('Hello World! from Node.Js TJ qwes new');
 });
 app.listen('8080','0.0.0.0',() =>{
-    console.log('listening to port 80000000 ,hlow ');
+    console.log('listening to port 80 work ');
 });
